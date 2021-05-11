@@ -386,7 +386,8 @@
     </div>
     <div class="token-value form-control">{{token}}</div>
   </div>
-  <div class="debug-area">
+
+  <div class="debug-area" *ngIf="auth.isAuthenticated$ | async">
     <h3>APIのテスト</h3>
     <div class="content-area">
       <form #editForm="ngForm" class="request-area">
