@@ -315,38 +315,40 @@
     <div class="spacer"></div>
     <div class="right-area">
       <button
-        *ngIf="!(auth.isAuthenticated$ | async)"
+        *ngIf="!(auth.isAuthenticated$ | async) else logoutPart"
         class="btn btn-outline-light"
         (click)="loginWithRedirect()">ログイン</button>
       <!-- /Responsive login button -->
 
     <!-- Responsive profile dropdown: show if authenticated -->
-      <ng-container *ngIf="auth.user$ | async as user">
-        <span class="user-info">
-          <!-- Profile image should be set to the profile picture from the id token -->
-          <img
-            alt="Profile picture"
-            class="nav-user-profile d-inline-block rounded-circle mr-3"
-            style="width: 75px;"
-            [src]="user.picture"
-          />
-          <!-- Show the user's full name from the id token here -->
-          <!-- <h6 class="d-inline-block">{{ user.name }}</h6> -->
-        </span>
-        <!-- </li>
-        <li>
-          <fa-icon [icon]="faUser" class="mr-3"></fa-icon>
-          <a routerLink="/profile">Profile</a>
-        </li> -->
+      <ng-template #logoutPart>
+        <ng-container *ngIf="auth.user$ | async as user">
+          <span class="user-info">
+            <!-- Profile image should be set to the profile picture from the id token -->
+            <img
+              alt="Profile picture"
+              class="nav-user-profile d-inline-block rounded-circle mr-3"
+              style="width: 75px;"
+              [src]="user.picture"
+            />
+            <!-- Show the user's full name from the id token here -->
+            <!-- <h6 class="d-inline-block">{{ user.name }}</h6> -->
+          </span>
+          <!-- </li>
+          <li>
+            <fa-icon [icon]="faUser" class="mr-3"></fa-icon>
+            <a routerLink="/profile">Profile</a>
+          </li> -->
 
-        <!-- <li>
-          <fa-icon [icon]="faPowerOff" class="mr-3"></fa-icon> -->
-        <button
-          class="btn btn-outline-light"
-          (click)="logout()">ログアウト</button>
-      <!-- </li> -->
-    <!-- </ul>     -->
-      </ng-container>
+          <!-- <li>
+            <fa-icon [icon]="faPowerOff" class="mr-3"></fa-icon> -->
+          <button
+            class="btn btn-outline-light"
+            (click)="logout()">ログアウト</button>
+        <!-- </li> -->
+      <!-- </ul>     -->
+        </ng-container>
+      </ng-template>
     </div>
   </div>
 
@@ -384,34 +386,38 @@
     </div>
     <div class="token-value form-control">{{token}}</div>
   </div>
-
-  <h3 [style.margin-left.px]="10">デバッグ用</h3>
   <div class="debug-area">
-    <form #editForm="ngForm" class="request-area">
-      <div>
-        <button class="btn btn-outline-primary" (click)="sendRequest(editForm)">送信</button>
-      </div>
-      <h4>ベースURL</h4>
-      <input class="form-control" name="baseUrl" [(ngModel)]="baseUrl" required>
-      <h4>パス</h4>
-      <input class="form-control" name="path" [(ngModel)]="path" required>
-      <h4>Method</h4>
-      <select class="form-control" name="method" [(ngModel)]="method" required>
-        <option value="get">GET</option>
-        <option value="post">POST</option>
-        <option value="put">PUT</option>
-        <option value="delete">DELETE</option>
-      </select>
-      <h4>リクエストBody</h4>
-      <div class="textarea-wrapper">
-        <textarea class="form-control" name="requestBody" [(ngModel)]="requestBody"></textarea>
-      </div>
-    </form>
-    <div class="response-area">
-      <h4>レスポンスボディ</h4>
-      成功時: ボディのみ, 失敗時: レスポンス全体
-      <div>
-        {{response || error || '' | json}}
+    <h3>APIのテスト</h3>
+    <div class="content-area">
+      <form #editForm="ngForm" class="request-area">
+        <div class="header">
+          <h4>リクエスト</h4>
+          <div>
+            <button class="btn btn-outline-primary" (click)="sendRequest(editForm)">送信</button>
+          </div>
+        </div>
+        <h4>ベースURL</h4>
+        <input class="form-control" name="baseUrl" [(ngModel)]="baseUrl" required>
+        <h4>パス</h4>
+        <input class="form-control" name="path" [(ngModel)]="path" required>
+        <h4>Method</h4>
+        <select class="form-control" name="method" [(ngModel)]="method" required>
+          <option value="get">GET</option>
+          <option value="post">POST</option>
+          <option value="put">PUT</option>
+          <option value="delete">DELETE</option>
+        </select>
+        <h4>リクエストBody</h4>
+        <div class="textarea-wrapper">
+          <textarea class="form-control" name="requestBody" [(ngModel)]="requestBody"></textarea>
+        </div>
+      </form>
+      <div class="response-area">
+        <h4>レスポンス</h4>
+        成功時: ボディのみ, 失敗時: レスポンス全体
+        <div>
+          {{response || error || '' | json}}
+        </div>
       </div>
     </div>
   </div>

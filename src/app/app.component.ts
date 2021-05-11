@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import * as config from '../../auth_config.json';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { environment as env } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -44,10 +46,15 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getToken();
+    this.auth.isAuthenticated$
+      .pipe(filter(res => res))
+      .subscribe(() => this.getToken());
   }
 
   loginWithRedirect() {
+    // console.log(env);
+    // console.log(env.auth.redirectUri);
+    // this.auth.loginWithRedirect({ redirect_uri: env.auth.redirectUri });
     this.auth.loginWithRedirect();
   }
 
@@ -56,7 +63,10 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.auth.logout({ returnTo: this.doc.location.origin });
+    // this.auth.logout({ returnTo: this.doc.location.origin });
+    // console.log(env.auth.redirectUri);
+    this.auth.logout({ returnTo: env.auth.redirectUri });
+    // this.auth.logout();
   }  
 
   getToken() {
