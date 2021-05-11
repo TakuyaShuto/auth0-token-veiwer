@@ -1,8 +1,0 @@
-{
-  "domain": "tpn-sbnt-dev.jp.auth0.com",
-  "clientId": "ou33nxIbc636wf0pBr0ah3xNDyT6GQX2",
-  "audience": "https://tpn-sbnt-dev.jp.auth0.com/api/v2/",
-  "apiUri": "http://localhost:8080",
-  "appUri": "http://localhost:4200",
-  "errorPath": "/error"
-}
